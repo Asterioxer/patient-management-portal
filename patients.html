@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patients - ELRICS Patient Management</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="assets/logo.svg" alt="Logo" class="sidebar-logo" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%232563eb\'><path d=\'M19,3H5C3.89,3 3,3.89 3,5V19C3,20.1 3.89,21 5,21H19C20.1,21 21,20.1 21,19V5C21,3.89 20.1,3 19,3M10,17V14H7V10H10V7L15,12L10,17Z\'/></svg>'">
+                <span class="font-bold text-lg text-main">ELRICS</span>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item">
+                    <span>📊</span>
+                    Dashboard
+                </a>
+                <a href="patients.html" class="nav-item active">
+                    <span>👥</span>
+                    Patients
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="login.html" id="logoutBtn" class="nav-item">
+                    <span>🚪</span>
+                    Logout
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <div>
+                    <h2 class="text-xl">Patient Directory</h2>
+                </div>
+                
+                <div class="header-user">
+                    <img src="https://ui-avatars.com/api/?name=Admin&background=2563eb&color=fff" alt="User Avatar" class="avatar">
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <div class="page-content">
+                
+                <!-- Top Bar -->
+                <div class="top-bar">
+                    <div class="search-box">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        <input type="text" id="searchPatient" class="form-control" placeholder="Search patients by name or ID...">
+                    </div>
+                    
+                    <div class="actions-group">
+                        <button id="refreshBtn" class="btn btn-secondary">
+                            <span>🔄 Refresh</span>
+                        </button>
+                        <button id="addPatientBtn" class="btn btn-primary">
+                            <span>➕ Add Patient</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyState" class="card empty-state" style="display: none;">
+                    <div class="empty-state-icon">📭</div>
+                    <h3 class="text-lg font-medium text-main mb-2">No Patient Records Found</h3>
+                    <p>There are no patients matching your current view or search query.</p>
+                </div>
+
+                <!-- Patient Table -->
+                <div id="tableContainer" class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Patient ID</th>
+                                <th>Patient Name</th>
+                                <th>Age</th>
+                                <th>Gender</th>
+                                <th>Phone Number</th>
+                                <th>Blood Group</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="patientTableBody">
+                            <!-- Rows injected via JS -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="mt-4 text-xs text-muted text-center">
+                    <p><i>Note: The displayed records are DEMO DATA. This application expects a backend integration to load real patient information.</i></p>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Patient Registration Modal -->
+    <div id="patientModal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modalTitle" class="text-xl">Register New Patient</h3>
+                <button class="close-btn" onclick="window.utils.closeModal('patientModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="patientForm">
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" name="fullName" class="form-control" required placeholder="John Doe">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Age</label>
+                            <input type="number" name="age" class="form-control" required min="0" max="150" placeholder="45">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Gender</label>
+                            <select name="gender" class="form-control" required>
+                                <option value="">Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" name="phone" class="form-control" required placeholder="+1 555-0101">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control" placeholder="john.doe@example.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Blood Group</label>
+                            <select name="bloodGroup" class="form-control" required>
+                                <option value="">Select</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Status</label>
+                            <select name="status" class="form-control" required>
+                                <option value="Pending">Pending</option>
+                                <option value="Admitted">Admitted</option>
+                                <option value="Under Review">Under Review</option>
+                                <option value="Discharged">Discharged</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label class="form-label">Address</label>
+                            <textarea name="address" class="form-control" rows="2" placeholder="123 Main St, City"></textarea>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label class="form-label">Emergency Contact</label>
+                            <input type="text" name="emergencyContact" class="form-control" placeholder="Name - Phone">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="cancelModalBtn" class="btn btn-secondary">Cancel</button>
+                <button type="submit" form="patientForm" class="btn btn-primary">Save Patient</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

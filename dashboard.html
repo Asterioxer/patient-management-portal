@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - ELRICS Patient Management</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="assets/logo.svg" alt="Logo" class="sidebar-logo" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%232563eb\'><path d=\'M19,3H5C3.89,3 3,3.89 3,5V19C3,20.1 3.89,21 5,21H19C20.1,21 21,20.1 21,19V5C21,3.89 20.1,3 19,3M10,17V14H7V10H10V7L15,12L10,17Z\'/></svg>'">
+                <span class="font-bold text-lg text-main">ELRICS</span>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item active">
+                    <span>📊</span>
+                    Dashboard
+                </a>
+                <a href="patients.html" class="nav-item">
+                    <span>👥</span>
+                    Patients
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="login.html" id="logoutBtn" class="nav-item">
+                    <span>🚪</span>
+                    Logout
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <div>
+                    <h2 class="text-xl">Dashboard</h2>
+                </div>
+                
+                <div class="header-user">
+                    <div class="text-right">
+                        <div class="font-semibold text-sm">Administrator</div>
+                        <div class="text-xs text-muted" id="currentDate">Mon, Oct 24, 2026</div>
+                    </div>
+                    <img src="https://ui-avatars.com/api/?name=Admin&background=2563eb&color=fff" alt="User Avatar" class="avatar">
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <div class="page-content">
+                <h1 class="text-2xl mb-2">Welcome back, Administrator</h1>
+                <p class="text-muted mb-6">Here is what's happening at the hospital today.</p>
+
+                <!-- Statistics Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon primary">👥</div>
+                        <div class="stat-details">
+                            <h3>Total Patients</h3>
+                            <div class="value">1,248</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon success">🏥</div>
+                        <div class="stat-details">
+                            <h3>Today's Admissions</h3>
+                            <div class="value">14</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon warning">📝</div>
+                        <div class="stat-details">
+                            <h3>Pending Reviews</h3>
+                            <div class="value">23</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon danger">👋</div>
+                        <div class="stat-details">
+                            <h3>Discharged Today</h3>
+                            <div class="value">8</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <!-- Recent Activity Section -->
+                    <div class="card">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-lg">Recent Activity</h2>
+                            <a href="#" class="text-sm">View all</a>
+                        </div>
+                        <div class="activity-list">
+                            <div class="activity-item">
+                                <div class="activity-bullet" style="background-color: var(--success);"></div>
+                                <div class="activity-content">
+                                    <p><strong>Jane Smith</strong> was discharged from Ward A.</p>
+                                    <span>10 minutes ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-bullet" style="background-color: var(--danger);"></div>
+                                <div class="activity-content">
+                                    <p><strong>Michael Wilson</strong> was admitted to ICU.</p>
+                                    <span>2 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-bullet" style="background-color: var(--primary);"></div>
+                                <div class="activity-content">
+                                    <p>New patient <strong>Robert Johnson</strong> registered by Admin.</p>
+                                    <span>3 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-bullet" style="background-color: var(--warning);"></div>
+                                <div class="activity-content">
+                                    <p>Pending lab results for <strong>Emily Davis</strong> updated.</p>
+                                    <span>5 hours ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="card">
+                        <h2 class="text-lg mb-2">Quick Navigation</h2>
+                        <p class="text-sm text-muted">Access important modules</p>
+                        
+                        <div class="nav-cards">
+                            <a href="patients.html" class="nav-card">
+                                <div class="nav-card-icon">📇</div>
+                                <div class="nav-card-title">Patient Directory</div>
+                            </a>
+                            <a href="patients.html" class="nav-card">
+                                <div class="nav-card-icon">➕</div>
+                                <div class="nav-card-title">Add Patient</div>
+                            </a>
+                            <a href="#" class="nav-card" onclick="alert('Module not implemented in this demo.')">
+                                <div class="nav-card-icon">📅</div>
+                                <div class="nav-card-title">Appointments</div>
+                            </a>
+                            <a href="#" class="nav-card" onclick="alert('Module not implemented in this demo.')">
+                                <div class="nav-card-icon">⚙️</div>
+                                <div class="nav-card-title">Settings</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
