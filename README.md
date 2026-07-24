@@ -24,6 +24,7 @@ Your objective is to complete the application by implementing the required backe
 ├── README.md
 ├── .gitignore
 ├── login.html
+├── register.html
 ├── dashboard.html
 ├── patients.html
 ├── assets/
@@ -41,6 +42,7 @@ Your objective is to complete the application by implementing the required backe
     │   └── api.js
     ├── pages/
     │   ├── login.js
+    │   ├── register.js
     │   ├── dashboard.js
     │   └── patients.js
     ├── components/
@@ -69,8 +71,9 @@ Since this is a static frontend project, there are no dependencies to install (n
 
 The hospital requires a secure Patient Management Portal. Authorized administrators should be able to:
 
-1. **Log in** to access the dashboard.
-2. **View patient records** with relevant medical details.
+1. **Register** to create an initial administrator account.
+2. **Log in** to access the dashboard.
+3. **View patient records** with relevant medical details.
 3. **Register new patients** capturing essential data.
 4. **Update patient information** when circumstances change.
 5. **Delete patient records** from the system.
@@ -119,6 +122,7 @@ You may make reasonable assumptions where requirements are not explicitly define
 
 - **Do not modify the overall UI/UX design.** You may add subtle improvements if necessary, but the core aesthetic must remain the same.
 - **Complete the application according to the business requirements.** Connect the provided frontend functions to your newly created backend.
+- **Initial Administrator:** The application should support creation of the initial administrator account before authentication.
 - **Data Persistence:** Ensure that users and patients are properly stored.
 - **Authentication:** Secure the application so unauthorized access is rejected.
 - **Git Workflow:** Maintain a clean commit history. Use meaningful commit messages that reflect logical development milestones. The repository history may be reviewed during evaluation.

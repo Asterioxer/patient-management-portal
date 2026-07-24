@@ -27,12 +27,12 @@
             <form id="loginForm">
                 <div class="form-group">
                     <label for="username" class="form-label">Username / Email</label>
-                    <input type="text" id="username" class="form-control" placeholder="admin" required>
+                    <input type="text" id="username" class="form-control" required>
                 </div>
 
                 <div class="form-group">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" id="password" class="form-control" placeholder="••••••••" required>
+                    <input type="password" id="password" class="form-control" required>
                 </div>
 
                 <div class="options-row">
@@ -46,7 +46,11 @@
                 <button type="submit" class="btn btn-primary login-btn">Sign In to Dashboard</button>
             </form>
 
-            <div class="login-footer">
+            <div class="login-footer" style="margin-top: 1.5rem;">
+                <div style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border);">
+                    <p style="margin-bottom: 0.5rem;">First time using the system?</p>
+                    <a href="register.html" class="font-medium text-primary">Create Administrator Account</a>
+                </div>
                 <p>&copy; 2026 ELRICS Healthcare. All rights reserved.</p>
             </div>
         </div>

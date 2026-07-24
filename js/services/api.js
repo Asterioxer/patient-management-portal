@@ -29,3 +29,7 @@ export async function deletePatient(id) {
 export async function searchPatients(query) {
     throw new Error("Implement searchPatients()");
 }
+
+export async function register(user) {
+    throw new Error("Implement register()");
+}
