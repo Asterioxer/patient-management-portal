@@ -23,6 +23,7 @@ export async function initDashboard() {
 
     try {
         const patients = await api.getPatients();
+        // Dashboard KPIs should reflect the database, not hard-coded demo figures.
         const values = document.querySelectorAll('.stat-card .value');
         if (values[0]) values[0].textContent = String(patients.length);
         if (values[1]) values[1].textContent = String(patients.filter(p => {
@@ -50,7 +51,7 @@ export async function initDashboard() {
                     content.className = 'activity-content';
                     const p = document.createElement('p');
                     const strong = document.createElement('strong');
-                    strong.textContent = patient.fullName;
+                    strong.textContent = patient.fullName || 'Patient';
                     p.append(strong, document.createTextNode(` • Status: ${patient.status}`));
                     const time = document.createElement('span');
                     time.textContent = patient.createdAt ? new Date(patient.createdAt).toLocaleString() : 'Recently added';
