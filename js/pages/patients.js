@@ -10,22 +10,20 @@ export function initPatients() {
         window.location.replace('login.html');
         return;
     }
-
     initializeSidebar();
     const refreshBtn = document.getElementById('refreshBtn');
     const searchInput = document.getElementById('searchPatient');
     const addPatientBtn = document.getElementById('addPatientBtn');
     const patientForm = document.getElementById('patientForm');
     const cancelModalBtn = document.getElementById('cancelModalBtn');
+    const closeModalBtn = document.getElementById('closePatientModalBtn');
 
     loadPatients();
-
     refreshBtn?.addEventListener('click', () => loadPatients(searchInput?.value || ''));
     searchInput?.addEventListener('input', () => {
         window.clearTimeout(searchInput._debounceTimer);
         searchInput._debounceTimer = window.setTimeout(() => loadPatients(searchInput.value), 250);
     });
-
     addPatientBtn?.addEventListener('click', () => {
         patientForm?.reset();
         ensurePatientIdInput().value = '';
@@ -33,12 +31,13 @@ export function initPatients() {
         if (modalTitle) modalTitle.textContent = 'Register New Patient';
         openModal('patientModal');
     });
-
     cancelModalBtn?.addEventListener('click', () => closeModal('patientModal'));
+    closeModalBtn?.addEventListener('click', () => closeModal('patientModal'));
 
     patientForm?.addEventListener('submit', async (e) => {
         e.preventDefault();
         const patientData = Object.fromEntries(new FormData(patientForm).entries());
+        delete patientData.patientId;
         patientData.age = Number(patientData.age);
         try {
             toggleLoading(true, 'Saving Patient...');
@@ -78,20 +77,19 @@ async function loadPatients(query = '') {
     const emptyState = document.getElementById('emptyState');
     const patientForm = document.getElementById('patientForm');
     if (!patientTableBody || !tableContainer || !emptyState) return;
-
     try {
         toggleLoading(true, 'Loading Patients...');
         const patients = query ? await api.searchPatients(query) : await api.getPatients();
         renderTable(patientTableBody, tableContainer, emptyState, patients, () => loadPatients(query), patientForm);
         const note = document.querySelector('.page-content .text-center p');
-        if (note) note.textContent = `${patients.length} patient record(s) returned by the API.`;
+        if (note) note.textContent = `${patients.length} patient record(s) returned by the API. Do not use real patient data in this demo.`;
     } catch (error) {
         tableContainer.style.display = 'none';
         emptyState.style.display = 'block';
-        const emptyTitle = emptyState.querySelector('h3');
-        const emptyDescription = emptyState.querySelector('p');
-        if (emptyTitle) emptyTitle.textContent = 'Unable to Load Patient Records';
-        if (emptyDescription) emptyDescription.textContent = error.message || 'Check that the backend is running and try again.';
+        const title = emptyState.querySelector('h3');
+        const description = emptyState.querySelector('p');
+        if (title) title.textContent = 'Unable to Load Patient Records';
+        if (description) description.textContent = error.message || 'Check that the backend is running and try again.';
         showToast('error', 'Patient Load Failed', error.message || 'Could not load patients.');
     } finally {
         toggleLoading(false);
