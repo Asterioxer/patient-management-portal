@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
                 ("gender", models.CharField(choices=[("Male", "Male"), ("Female", "Female"), ("Other", "Other")], max_length=10)),
                 ("phone", models.CharField(max_length=32)),
                 ("email", models.EmailField(blank=True, max_length=254)),
-                ("blood_group", models.CharField(choices=[("A+", "A+"), ("A-", "A-"), ("B+", "B+"), ("B-", "B-"), ("AB+", "AB+"), ("AB-", "AB-"), ("O+", "O+"), ("O-", "O-")], max_length=3)),
+                ("blood_group", models.CharField(choices=[("A+", "A+"), ("A-", "A-"), ("B+", "B-"), ("B-", "B-"), ("AB+", "AB+"), ("AB-", "AB-"), ("O+", "O+"), ("O-", "O-")], max_length=3)),
                 ("status", models.CharField(choices=[("Pending", "Pending"), ("Admitted", "Admitted"), ("Under Review", "Under Review"), ("Discharged", "Discharged")], default="Pending", max_length=20)),
                 ("address", models.TextField(blank=True)),
                 ("emergency_contact", models.CharField(blank=True, max_length=160)),
