@@ -1,10 +1,5 @@
 from django.urls import path
-from rest_framework.authtoken.views import obtain_auth_token
-
-from .views import (
-    BootstrapStatusView, CurrentUserView, LoginView, LogoutView,
-    PatientDetailView, PatientListCreateView, RegisterView,
-)
+from .views import BootstrapStatusView, CurrentUserView, LoginView, LogoutView, PatientDetailView, PatientListCreateView, RegisterView
 
 urlpatterns = [
     path("auth/bootstrap/", BootstrapStatusView.as_view(), name="auth-bootstrap"),
