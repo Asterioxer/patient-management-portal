@@ -3,7 +3,6 @@ from django.db.models import Q
 from rest_framework import generics, permissions, status
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
-from rest_framework.views import APIView
 
 from .models import Patient
 from .serializers import LoginSerializer, PatientSerializer, RegistrationSerializer
@@ -11,7 +10,7 @@ from .serializers import LoginSerializer, PatientSerializer, RegistrationSeriali
 User = get_user_model()
 
 
-class BootstrapStatusView(APIView):
+class BootstrapStatusView(generics.GenericAPIView):
     permission_classes = [permissions.AllowAny]
     authentication_classes = []
 
@@ -27,8 +26,6 @@ class RegisterView(generics.GenericAPIView):
     def post(self, request):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        # Avoid a race in simultaneous first registrations. Database uniqueness still
-        # protects usernames; only the first user is permitted to bootstrap the app.
         if User.objects.exists():
             return Response({"detail": "Administrator registration is closed."}, status=status.HTTP_403_FORBIDDEN)
         user = serializer.save()
@@ -56,13 +53,13 @@ class LoginView(generics.GenericAPIView):
         })
 
 
-class LogoutView(APIView):
+class LogoutView(generics.GenericAPIView):
     def post(self, request):
         Token.objects.filter(user=request.user).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class CurrentUserView(APIView):
+class CurrentUserView(generics.GenericAPIView):
     def get(self, request):
         user = request.user
         return Response({"id": user.pk, "username": user.username, "email": user.email, "fullName": user.first_name})
@@ -72,14 +69,16 @@ class PatientListCreateView(generics.ListCreateAPIView):
     serializer_class = PatientSerializer
 
     def get_queryset(self):
-        queryset = Patient.objects.select_related("created_by").all()
+        queryset = Patient.objects.all()
         query = self.request.query_params.get("search", "").strip()
         if query:
-            queryset = queryset.filter(
-                Q(name__icontains=query) | Q(phone__icontains=query) |
-                Q(email__icontains=query) | Q(status__icontains=query) |
-                Q(id__icontains=query)
-            )
+            filters = Q(name__icontains=query) | Q(phone__icontains=query) | Q(email__icontains=query) | Q(status__icontains=query)
+            try:
+                import uuid
+                filters |= Q(id=uuid.UUID(query))
+            except (ValueError, AttributeError):
+                pass
+            queryset = queryset.filter(filters)
         status_filter = self.request.query_params.get("status", "").strip()
         if status_filter:
             queryset = queryset.filter(status=status_filter)
