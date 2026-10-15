@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.http import JsonResponse
 from django.test import TestCase
 from rest_framework.test import APIClient
 
@@ -12,7 +13,8 @@ class PatientApiTests(TestCase):
     def test_health_endpoint_is_public(self):
         response = self.client.get("/api/health/")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data["status"], "ok")
+        payload = response.json() if isinstance(response, JsonResponse) else response.data
+        self.assertEqual(payload["status"], "ok")
 
     def test_registration_bootstraps_first_admin(self):
         response = self.client.post("/api/auth/register/", {
