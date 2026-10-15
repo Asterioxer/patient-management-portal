@@ -103,7 +103,7 @@
                 </div>
                 
                 <div class="mt-4 text-xs text-muted text-center">
-                    <p><i>Note: The displayed records are DEMO DATA. This application expects a backend integration to load real patient information.</i></p>
+                    <p><i>Patient records are loaded from the connected API. Do not use real patient data in this assessment/demo environment.</i></p>
                 </div>
 
             </div>
@@ -115,7 +115,7 @@
         <div class="modal">
             <div class="modal-header">
                 <h3 id="modalTitle" class="text-xl">Register New Patient</h3>
-                <button class="close-btn" onclick="window.utils.closeModal('patientModal')">&times;</button>
+                <button class="close-btn" id="closePatientModalBtn" data-close-modal="patientModal" onclick="window.utils.closeModal('patientModal')">&times;</button>
             </div>
             <div class="modal-body">
                 <form id="patientForm">
