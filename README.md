@@ -15,7 +15,7 @@ Your objective is to complete the application by implementing the required backe
 
 ## Time Available
 
-**60 Minutes**
+**30 Minutes**
 
 ## Folder Structure
 
