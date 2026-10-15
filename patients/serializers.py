@@ -1,7 +1,6 @@
 from django.contrib.auth import authenticate, get_user_model, password_validation
 from django.core.exceptions import ValidationError as DjangoValidationError
 from rest_framework import serializers
-from rest_framework.authtoken.models import Token
 
 from .models import Patient
 
@@ -32,19 +31,15 @@ class RegistrationSerializer(serializers.Serializer):
         return value
 
     def create(self, validated_data):
-        # The first registration establishes the initial administrator. Additional
-        # accounts require an existing authenticated administrator.
-        request = self.context.get("request")
-        if User.objects.exists() and not (request and request.user.is_authenticated and request.user.is_staff):
-            raise serializers.ValidationError({"detail": "Administrator registration is closed. Ask an administrator to create an account."})
-        user = User.objects.create_user(
+        if User.objects.exists():
+            raise serializers.ValidationError({"detail": "Administrator registration is closed."})
+        return User.objects.create_user(
             username=validated_data["username"],
             email=validated_data["email"],
             password=validated_data["password"],
             first_name=validated_data["full_name"],
             is_staff=True,
         )
-        return user
 
 
 class LoginSerializer(serializers.Serializer):
@@ -55,7 +50,6 @@ class LoginSerializer(serializers.Serializer):
         username = attrs["username"].strip()
         user = authenticate(username=username, password=attrs["password"])
         if user is None:
-            # Permit email login without revealing whether the account exists.
             candidate = User.objects.filter(email__iexact=username).first()
             if candidate:
                 user = authenticate(username=candidate.username, password=attrs["password"])
@@ -92,5 +86,4 @@ class PatientSerializer(serializers.ModelSerializer):
         return cleaned
 
     def create(self, validated_data):
-        request = self.context["request"]
-        return Patient.objects.create(created_by=request.user, **validated_data)
+        return Patient.objects.create(created_by=self.context["request"].user, **validated_data)
