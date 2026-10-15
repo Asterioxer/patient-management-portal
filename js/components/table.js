@@ -30,15 +30,8 @@ export function renderTable(patientTableBody, tableContainer, emptyState, curren
         const tr = document.createElement('tr');
         const id = String(patient.id);
         const name = patient.fullName ?? patient.name ?? '';
-        const bloodGroup = patient.bloodGroup ?? patient.blood_group ?? '';
-        tr.append(
-            makeCell(id),
-            makeCell(name),
-            makeCell(patient.age),
-            makeCell(patient.gender),
-            makeCell(patient.phone),
-        );
-        const bloodCell = makeCell(bloodGroup);
+        tr.append(makeCell(id), makeCell(name), makeCell(patient.age), makeCell(patient.gender), makeCell(patient.phone));
+        const bloodCell = makeCell(patient.bloodGroup ?? patient.blood_group ?? '');
         bloodCell.className = 'font-medium';
         tr.append(bloodCell);
 
